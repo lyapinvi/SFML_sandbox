@@ -1,6 +1,7 @@
 #include <iostream>
 #include "SFML/Graphics.hpp"
 
+
 bool shouldContinue(sf::RenderWindow& window) {
     bool should_continue = false;
 
@@ -17,7 +18,30 @@ bool shouldContinue(sf::RenderWindow& window) {
     return should_continue;
 }
 
-int main(int argc, char* argv[]) {
+
+sf::Vector2f calcNewPosition(const sf::Vector2u& windowSize,
+                             const sf::Sprite& sprite,
+                             sf::Vector2f& vect) {
+
+    sf::Vector2u size = sprite.getTexture()->getSize();
+
+    if ((sprite.getPosition().x + (size.x / 2) > windowSize.x && vect.x > 0) ||
+        (sprite.getPosition().x - (size.x / 2) < 0 && vect.x < 0)) {
+
+        vect.x = -vect.x;
+    }
+
+    if ((sprite.getPosition().y + (size.y / 2) > windowSize.y && vect.y > 0) ||
+        (sprite.getPosition().y - (size.y / 2) < 0 && vect.y < 0)) {
+
+        vect.y = -vect.y;
+    }
+
+    return sprite.getPosition() + vect;
+}
+
+
+int main(int, char**) {
 
     sf::RenderWindow window(sf::VideoMode(640, 480), "First window!");
 
@@ -32,15 +56,16 @@ int main(int argc, char* argv[]) {
     sf::Sprite mushroom(texture);
     mushroom.setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
 
-    sf::Vector2f inc(0.4, 0.4);
+    sf::Vector2f inc(0.1, 0.1);
 
     while (shouldContinue(window)) {
-        window.clear(sf::Color::Black);
+        window.clear(sf::Color::Green);
 
-        updateScene(mushroom, increment);
+        mushroom.setPosition(
+                    calcNewPosition(window.getSize(), mushroom, inc));
 
         window.draw(rectangle);
-        window.draw(sprite);
+        window.draw(mushroom);
         window.display();
     }
 
