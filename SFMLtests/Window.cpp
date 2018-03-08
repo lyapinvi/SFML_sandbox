@@ -30,3 +30,18 @@ void Window::Create() {
 void Window::Destroy() {
 	m_window.close();
 }
+
+void Window::Update() {
+	sf::Event enent;
+
+	while (m_window.pollEvent(event)) {
+		
+		if (event.type == sf::Event::Closed) {
+			m_isDone = true;
+
+		} else if ((event.type == sf::Event::KeyPressed) &&
+				   (event.key.code == sf::Keyboard::F5)) {
+			ToggleFullScreen();
+		}
+	}
+}
