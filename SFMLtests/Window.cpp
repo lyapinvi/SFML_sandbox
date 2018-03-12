@@ -14,7 +14,7 @@ Window::~Window() {
 
 void Window::Setup(const std::string& l_title, const sf::Vector2u& l_size) {
 	m_windowTitle = l_title;
-	m_windowSize = l_size;;
+	m_windowSize = l_size;
 	m_isFullscreen = false;
 	m_isDone = false;
 
@@ -44,4 +44,34 @@ void Window::Update() {
 			ToggleFullScreen();
 		}
 	}
+}
+
+void Window::ToggleFullScreen() {
+	m_isFullscreen = !m_isFullscreen;
+	Destroy();
+	Create();
+}
+
+void Window::BeginDraw() {
+	m_window.clear(sf::Color::Black);
+}
+
+void Window::EndDraw() {
+	m_window.display();
+}
+
+bool  Window::IsDone() const {
+	return m_isDone;
+}
+
+bool Window::IsFullscreen() const {
+	return m_isFullscreen;
+}
+
+sf::Vector2u  Window::GetWindowSize() const {
+	return m_windowSize;
+}
+
+void Window::Draw(const sf::Drawable& l_drawable) {
+	m_window.draw(l_drawable);
 }
