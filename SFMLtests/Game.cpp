@@ -1,7 +1,7 @@
 #include "Game.h"
 
 Game::Game():
-m_window("Jumping Mushroom", sf::Vector2u(800, 600)), m_increment(4, 4) 
+m_window("Jumping Mushroom", sf::Vector2u(800, 600)), m_increment(1, 1) 
 {
 	m_mushroomTexture.loadFromFile("mushroom.jpg");
 	m_mushroom.setTexture(m_mushroomTexture);
