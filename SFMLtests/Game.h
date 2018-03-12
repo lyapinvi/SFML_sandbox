@@ -1,11 +1,11 @@
+#include "Window.h"
+
 class Game {
 
 public:
 	Game();
 
 	~Game();
-
-	void HandleInput();
 
 	void Update();
 
@@ -21,4 +21,4 @@ private:
 	sf::Texture m_mushroomTexture;
 	sf::Sprite m_mushroom;
 	sf::Vector2i m_increment;
-}
+};

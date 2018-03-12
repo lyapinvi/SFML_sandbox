@@ -1,9 +1,12 @@
+#include <string>
+#include "SFML/Graphics.hpp"
+
 class Window {
 public:
 	
 	Window();
 
-	Window(const std::string& l_title, const const sf::Vector2u& l_size);
+	Window(const std::string& l_title, const sf::Vector2u& l_size);
 
 	~Window();
 
@@ -13,15 +16,15 @@ public:
 
 	void Update();
 
-	bool IsDone();
+	bool IsDone() const;
 
-	bool IsFullscreen();
+	bool IsFullscreen() const;
 
-	sf::Vector2u GetWindowSize();
+	sf::Vector2u GetWindowSize() const;
 
 	void ToggleFullScreen();
 
-	void Draw(sf::Drawable& l_drawable);
+	void Draw(const sf::Drawable& l_drawable);
 
 private:
 

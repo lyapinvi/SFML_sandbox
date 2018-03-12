@@ -32,7 +32,7 @@ void Window::Destroy() {
 }
 
 void Window::Update() {
-	sf::Event enent;
+	sf::Event event;
 
 	while (m_window.pollEvent(event)) {
 		

@@ -1,16 +1,16 @@
-#include "Game.cpp"
+#include "Game.h"
 
 Game::Game():
 m_window("Jumping Mushroom", sf::Vector2u(800, 600)), m_increment(4, 4) 
 {
-	m_mushroomTexture.loadFromFile("Mushroom.jpg");
-	m_mushroom.setTexture(m_mushroomTexture)
+	m_mushroomTexture.loadFromFile("mushroom.jpg");
+	m_mushroom.setTexture(m_mushroomTexture);
 }
 
 Game::~Game() {}
 
 bool Game::IsOver() {
-	m_window.IsDone();
+	return m_window.IsDone();
 }
 
 void Game::Update() {
@@ -20,8 +20,8 @@ void Game::Update() {
 
 void Game::MoveMushroom() {
 	sf::Vector2u l_windSize = m_window.GetWindowSize();
-	sf::Vector2u l_textSize = m_mushroomTexture.GetTextureSize();
-	sf::Vector2u l_mushPos = m_mushroom.getPosition();
+	sf::Vector2u l_textSize = m_mushroomTexture.getSize();
+	sf::Vector2f l_mushPos = m_mushroom.getPosition();
 
 	if ((l_mushPos.x > l_windSize.x - l_textSize.x && m_increment.x > 0) ||
 		(l_mushPos.x < 0 && m_increment.x < 0)) {
@@ -33,7 +33,8 @@ void Game::MoveMushroom() {
 		m_increment.y = -m_increment.y;
 	}
 
-	m_mushroom.setPosition(l_mushPos + m_increment);
+	m_mushroom.setPosition(l_mushPos.x + m_increment.x, 
+						   l_mushPos.y + m_increment.y);
 }
 
 void Game::Render() {
