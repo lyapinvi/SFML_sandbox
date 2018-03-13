@@ -8,6 +8,7 @@ int main(int, char**) {
     while (!game.IsOver()) {
         game.Update();
         game.Render();
+        game.Synchronize();
     }
 
     std::cout << "Finishing..." << std::endl;

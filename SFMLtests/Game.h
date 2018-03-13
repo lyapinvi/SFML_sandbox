@@ -13,6 +13,8 @@ public:
 
 	bool IsOver();
 
+	void Synchronize();
+
 private:
 	void MoveMushroom();
 
@@ -21,4 +23,6 @@ private:
 	sf::Texture m_mushroomTexture;
 	sf::Sprite m_mushroom;
 	sf::Vector2i m_increment;
+	sf::Clock m_clock;
+	sf::Time m_iterationDuration;
 };

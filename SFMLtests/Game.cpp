@@ -1,7 +1,7 @@
 #include "Game.h"
 
 Game::Game():
-m_window("Jumping Mushroom", sf::Vector2u(800, 600)), m_increment(1, 1) 
+m_window("Jumping Mushroom", sf::Vector2u(800, 600)), m_increment(100, 100) 
 {
 	m_mushroomTexture.loadFromFile("mushroom.jpg");
 	m_mushroom.setTexture(m_mushroomTexture);
@@ -33,12 +33,17 @@ void Game::MoveMushroom() {
 		m_increment.y = -m_increment.y;
 	}
 
-	m_mushroom.setPosition(l_mushPos.x + m_increment.x, 
-						   l_mushPos.y + m_increment.y);
+	float fElapsed = m_iterationDuration.asSeconds();
+	m_mushroom.setPosition(l_mushPos.x + m_increment.x * fElapsed, 
+						   l_mushPos.y + m_increment.y * fElapsed);
 }
 
 void Game::Render() {
 	m_window.BeginDraw();
 	m_window.Draw(m_mushroom);
 	m_window.EndDraw();
+}
+
+void Game::Synchronize() {
+	m_iterationDuration = m_clock.restart();
 }
