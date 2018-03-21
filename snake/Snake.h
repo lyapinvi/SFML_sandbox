@@ -1,3 +1,5 @@
+#include <vector>
+
 #include "SFML/system.h"
 
 struct SnakeSegment {
