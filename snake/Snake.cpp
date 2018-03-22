@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 #include "Snake.h"
 
 Snake::Snake(int blockSize) {
@@ -67,5 +69,58 @@ void Snake::Lose() {
 
 void Snake::ToggleLost() {
 	m_lost = !m_lost;
+}
+
+void Snake::Extend() {
+	if (m_snakeBody.empty()) {
+		return;
+	}
+
+	const sf::Vector2i& tail = m_snakeBody.back().position;
+	sf::Vector2i ext = tail;
+
+	if (m_snakeBody.size() > 1) {
+		const sf::Vector2i& bone = (m_snakeBody.end() - 2)->position;
+
+		// if tail is along the x
+		if (tail.x == bone.x) {
+			if (tail.y > bone.y) {
+				++ext.y;
+			} else {
+				--ext.y;
+			}
+
+		// if tail is along the y
+		} else if (tail.y == bone.y) {
+			if (tail.x > bone.x) {
+				++ext.x;
+			} else {
+				--ext.x;
+			}
+		} else {
+			throw std::runtime_error("both x and y mismatched");
+		}
+	
+	// x and y are the same - snake is one segment
+	} else {
+		switch (m_dir) {
+			case Direction::Up:
+				++ext.y;
+				break;
+			case Direction::Down:
+				--ext.y;
+				break;
+			case Direction::Left:
+				++ext.x;
+				break;
+			case Direction::Right:
+				--ext.x;
+				break;
+			default:
+				throw std::runtime_error("unable to extend");
+		}
+	}
+
+	m_snakeBody.push_back(SnakeSegment(ext.x, ext.y));
 }
 
