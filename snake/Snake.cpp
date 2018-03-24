@@ -2,6 +2,8 @@
 
 #include "Snake.h"
 
+const int MIN_COLLISION_LEN = 4;
+
 Snake::Snake(int blockSize) {
 	m_size = blockSize;
 
@@ -124,3 +126,48 @@ void Snake::Extend() {
 	m_snakeBody.push_back(SnakeSegment(ext.x, ext.y));
 }
 
+void Snake::Tick() {
+	Move();
+	CheckCollision();
+}
+
+void Snake::Move() {
+	if (m_snakeBody.empty() || m_dir == Direction::None) {
+		return;
+	}
+
+	// Move all elements forward
+	for (int i = m_snakeBody.size() - 1; i > 0; --i) {
+		m_snakeBody[i].position = m_snakeBody[i - 1].position;
+	}
+
+	// Decide where the head moves
+	sf::Vector2i& head = m_snakeBody.front().position;
+
+	if (Direction::Left == m_dir) {
+		--head.x;
+	} else if (Direction::Right == m_dir) {
+		++head.x;
+	} else if (Direction::Up == m_dir) {
+		--head.y;
+	} else if (Direction::Down == m_dir) {
+		++head.y;
+	}
+}
+
+void Snake::CheckCollision() {
+	// No need to check collsion if snake is 4 segments or less
+	if (m_snakeBody.size() <= MIN_COLLISION_LEN) {
+		return;
+	}
+
+	const SnakeSegment& head = m_snakeBody.front();
+
+	for (auto seg = m_snakeBody.begin() + 1; seg != m_snakeBody.end(); ++seg) {
+		if (seg->position == head.position) {
+			int length_to_cut = m_snakeBody.end() - seg;
+			Cut(length_to_cut);
+			break;
+		}
+	}
+}
