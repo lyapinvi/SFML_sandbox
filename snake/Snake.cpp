@@ -44,7 +44,7 @@ int Snake::GetSpeed() const {
 }
 
 sf::Vector2i Snake::GetPosition() const {
-	//TODO: this looks horriblle (empty snake body == (1, 1))
+	//TODO: this looks horrible (empty snake body == (1, 1))
 	return (m_snakeBody.empty() ? sf::Vector2i(1, 1) : m_snakeBody.front());
 }
 
@@ -165,9 +165,33 @@ void Snake::CheckCollision() {
 
 	for (auto seg = m_snakeBody.begin() + 1; seg != m_snakeBody.end(); ++seg) {
 		if (seg->position == head.position) {
-			int length_to_cut = m_snakeBody.end() - seg;
-			Cut(length_to_cut);
+			int lengthToCut = m_snakeBody.end() - seg;
+			Cut(lengthToCut);
 			break;
 		}
+	}
+}
+
+// Bad name: this funtion doesn't cut, it handles a collision,
+// by cutting and checking the losing criteria
+void Snake::Cut(int segCount) {
+	m_snakeBody.erase(m_snakeBody.end() - segCount, m_snakeBody.end());
+	if (0 == --m_lives) {
+		Lose();
+	}
+}
+
+void Snake::Render(sf::RenderWindow& window) {
+	if (m_snakeBody.empty()) {
+		return;
+	}
+
+	for (const auto& seg: m_snakeBody) {
+		m_bodyRect.setFillColor(seg == m_snakeBody.front()
+			? sf::Color::Yellow : sf::Color::Green);
+
+		m_bodyRect.setPosition(seg.position.x * m_size, seg.position.y * m_size);
+		
+		window.draw();
 	}
 }
