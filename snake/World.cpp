@@ -66,24 +66,29 @@ void World::Update(Snake& player) {
 	}
 }
 
-void World::Render(sf::RenderWindow& window) {
-	for (const auto& wall: m_bounds) {
-		window.draw(wall)
-	}
-
-	sf::CircleShape appleShape;
-	appleShape.setFillColor(sf::Color::Red);
-	appleShape.setRadius(GetBlockSize() / 2);
-	//TODO: add function to convert from blocks to pixels
-	appleShape.setPosition(m_apple.x * GetBlockSize(), 
-		m_apple.y * GetBlockSize());
-	window.draw(appleShape);
+void World::Render(sf::RenderWindow& window) const {
+	RenderBorders();
+	RenderApple();
 }
 
 int World::GetBlockSize() {
 	return m_blockSize;
 }
 
+void World::RenderBorders() const {
+	for (const auto& wall: m_bounds) {
+		window.draw(wall);
+	}
+}
 
+void World::RenderApple() const {
+	sf::CircleShape appleShape;
 
-
+	appleShape.setFillColor(sf::Color::Red);
+	appleShape.setRadius(GetBlockSize() / 2);
+	
+	//TODO: add function to convert from blocks to pixels
+	appleShape.setPosition(m_apple.x * GetBlockSize(), 
+		m_apple.y * GetBlockSize());
+	window.draw(appleShape);
+}

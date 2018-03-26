@@ -8,7 +8,11 @@ public:
 	int GetBlockSize() const;
 	void RespawnApple();
 	void Update(Snake& player);
-	void Render(sf::RenderWindow& window);
+	void Render(sf::RenderWindow& window) const;
+
+private:
+	void RenderBorders() const;
+	void RenderApple() const;
 
 private:
 	sf::Vector2u m_windowSize;
