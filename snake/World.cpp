@@ -1,4 +1,4 @@
-#include <World.h>
+#include "World.h"
 
 static std::vector<sf::RectangleShape> CreateBorderWalls(
 	const sf::Vector2u& worldSize,
@@ -28,9 +28,9 @@ static std::vector<sf::RectangleShape> CreateBorderWalls(
 	return walls;
 }
 
-World::World(sf::Vector2u windowSize):
-	m_blockSize(16),
+World::World(const sf::Vector2u& windowSize):
 	m_windowSize(windowSize),
+	m_blockSize(16)
 {
 	RespawnApple();
 	m_bounds = CreateBorderWalls(
@@ -66,22 +66,22 @@ void World::Update(Snake& player) {
 	}
 }
 
-void World::Render(sf::RenderWindow& window) const {
-	RenderBorders();
-	RenderApple();
+void World::Render(Window& window) const {
+	RenderBorders(window);
+	RenderApple(window);
 }
 
-int World::GetBlockSize() {
+int World::GetBlockSize() const {
 	return m_blockSize;
 }
 
-void World::RenderBorders() const {
+void World::RenderBorders(Window& window) const {
 	for (const auto& wall: m_bounds) {
-		window.draw(wall);
+		window.Draw(wall);
 	}
 }
 
-void World::RenderApple() const {
+void World::RenderApple(Window& window) const {
 	sf::CircleShape appleShape;
 
 	appleShape.setFillColor(sf::Color::Red);
@@ -90,5 +90,5 @@ void World::RenderApple() const {
 	//TODO: add function to convert from blocks to pixels
 	appleShape.setPosition(m_apple.x * GetBlockSize(), 
 		m_apple.y * GetBlockSize());
-	window.draw(appleShape);
+	window.Draw(appleShape);
 }

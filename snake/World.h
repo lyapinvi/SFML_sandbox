@@ -1,4 +1,10 @@
+#ifndef WORLD_H
+#define WORLD_H
+
 #include <vector>
+
+#include "Snake.h"
+#include "World.h"
 
 class World {
 public:
@@ -8,11 +14,11 @@ public:
 	int GetBlockSize() const;
 	void RespawnApple();
 	void Update(Snake& player);
-	void Render(sf::RenderWindow& window) const;
+	void Render(Window& window) const;
 
 private:
-	void RenderBorders() const;
-	void RenderApple() const;
+	void RenderBorders(Window& window) const;
+	void RenderApple(Window& window) const;
 
 private:
 	sf::Vector2u m_windowSize;
@@ -20,3 +26,5 @@ private:
 	int m_blockSize;
 	std::vector<sf::RectangleShape> m_bounds;
 };
+
+#endif // WORLD_H

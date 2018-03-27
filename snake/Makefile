@@ -1,7 +1,7 @@
 CC=g++
-CFLAGS=-c -Wall -std=c++11
+CFLAGS=-c -Wall -std=c++17
 LDFLAGS=-lsfml-window -lsfml-system -lsfml-graphics
-SOURCES=main.cpp
+SOURCES=main.cpp Snake.cpp World.cpp Game.cpp Window.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=snake
 
@@ -12,3 +12,6 @@ $(EXECUTABLE): $(OBJECTS)
 
 .cpp.o:
 	$(CC) $(CFLAGS) $< -o $@
+
+clean:
+	rm *.o

@@ -1,6 +1,11 @@
+#ifndef SNAKE_H
+#define SNAKE_H
+
 #include <vector>
 
-#include "SFML/system.h"
+#include "SFML/System.hpp"
+
+#include "Window.h"
 
 struct SnakeSegment {
 	SnakeSegment(int x, int y): position(x, y) {}
@@ -19,10 +24,10 @@ public:
 	// Helper methods
 	void SetDirection(Direction dir);
 	Direction GetDirection() const;
-	int GetSpeed();
-	sf::Vector2i GetPosition();
-	int GetLives();
-	int GetScore();
+	int GetSpeed() const;
+	sf::Vector2i GetPosition() const;
+	int GetLives() const;
+	int GetScore() const;
 	void IncreaseScore();
 	bool HasLost();
 
@@ -39,7 +44,7 @@ public:
 	void Move();
 	void Tick();
 	void Cut(int segments);
-	void Render(sf::RenderWindow& window);
+	void Render(Window& window);
 
 private:
 	void CheckCollision();
@@ -54,3 +59,5 @@ private:
 	bool m_lost;
 	sf::RectangleShape m_bodyRect;
 };
+
+#endif // SNAKE_H

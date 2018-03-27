@@ -1,3 +1,6 @@
+#ifndef WINDOW_H
+#define WINDOW_H
+
 #include <string>
 #include "SFML/Graphics.hpp"
 
@@ -28,3 +31,5 @@ private:
 	bool m_isDone;
 	bool m_isFullscreen;
 };
+
+#endif // WINDOW_H

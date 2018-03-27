@@ -45,7 +45,7 @@ int Snake::GetSpeed() const {
 
 sf::Vector2i Snake::GetPosition() const {
 	//TODO: this looks horrible (empty snake body == (1, 1))
-	return (m_snakeBody.empty() ? sf::Vector2i(1, 1) : m_snakeBody.front());
+	return (m_snakeBody.empty() ? sf::Vector2i(1, 1) : m_snakeBody.front().position);
 }
 
 int Snake::GetLives() const {
@@ -181,17 +181,17 @@ void Snake::Cut(int segCount) {
 	}
 }
 
-void Snake::Render(sf::RenderWindow& window) {
+void Snake::Render(Window& window) {
 	if (m_snakeBody.empty()) {
 		return;
 	}
 
-	for (const auto& seg: m_snakeBody) {
-		m_bodyRect.setFillColor(seg == m_snakeBody.front()
+	for (auto seg = m_snakeBody.begin(); seg != m_snakeBody.end(); ++seg) {
+		m_bodyRect.setFillColor(seg == m_snakeBody.begin()
 			? sf::Color::Yellow : sf::Color::Green);
 
-		m_bodyRect.setPosition(seg.position.x * m_size, seg.position.y * m_size);
-		
-		window.draw();
+		m_bodyRect.setPosition(seg->position.x * m_size, 
+			seg->position.y * m_size);
+		window.Draw(m_bodyRect);
 	}
 }

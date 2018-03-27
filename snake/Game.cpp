@@ -2,7 +2,7 @@
 
 Game::Game():
 	m_window("Snake", sf::Vector2u(800, 600)),
-	m_world(sf:Vector2u(800, 600)),
+	m_world(sf::Vector2u(800, 600)),
 	m_snake(m_world.GetBlockSize())
 {}
 
@@ -13,7 +13,10 @@ bool Game::IsOver() {
 }
 
 void Game::Update() {
+	m_window.Update();
+
 	if (IsTimeToUpdate()) {
+		m_snake.SetDirection(CurrentDirection());
 		m_snake.Tick();
 		m_world.Update(m_snake);
 
@@ -23,7 +26,7 @@ void Game::Update() {
 	}
 }
 
-Direction CurrentDirection() const {
+Direction Game::CurrentDirection() const {
 	Direction dir = m_snake.GetDirection();
 	auto key = sf::Keyboard::isKeyPressed;
 
@@ -39,19 +42,22 @@ Direction CurrentDirection() const {
 	return dir;
 }
 
-void Game::Render() {
-	m_window.BeginDraw();
-	m_window.Draw(m_mushroom);
-	m_window.EndDraw();
-}
-
 bool Game::IsTimeToUpdate() {
 	float timestep = 1.0f / m_snake.GetSpeed();
-	m_iterationDuration = m_clock.restart();
+	m_iterationDuration += m_clock.restart();
 	
-	if (m_iterationDuration >= timestep) {
-		m_iterationDuration -= timestep;
+	if (m_iterationDuration.asSeconds() >= timestep) {
+		m_iterationDuration -= sf::seconds(timestep);
 		return true;
 	}
 	return false;
+}
+
+void Game::Render() {
+	m_window.BeginDraw();
+	
+	m_world.Render(m_window);
+	m_snake.Render(m_window);
+
+	m_window.EndDraw();
 }

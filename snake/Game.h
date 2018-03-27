@@ -1,3 +1,6 @@
+#ifndef GAME_H
+#define GAME_H
+
 #include "Window.h"
 #include "World.h"
 #include "Snake.h"
@@ -11,7 +14,7 @@ public:
 	void Update();
 	void Render();
 	bool IsOver();
-	bool Game::IsTimeToUpdate();
+	bool IsTimeToUpdate();
 
 private:
 	Direction CurrentDirection() const;
@@ -23,3 +26,5 @@ private:
 	sf::Clock m_clock;
 	sf::Time m_iterationDuration;
 };
+
+#endif // GAME_H
