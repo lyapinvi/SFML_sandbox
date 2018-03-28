@@ -28,6 +28,9 @@ void Game::Update() {
 
 Direction Game::CurrentDirection() const {
 	Direction dir = m_snake.GetDirection();
+	if (dir != Direction::None) {
+		dir = m_snake.GetPhysicalDirection();	
+	}	
 	auto key = sf::Keyboard::isKeyPressed;
 
 	if (key(sf::Keyboard::Up) && dir != Direction::Down) {

@@ -195,3 +195,19 @@ void Snake::Render(Window& window) {
 		window.Draw(m_bodyRect);
 	}
 }
+
+Direction Snake::GetPhysicalDirection() const {
+	if (m_snakeBody.size() <= 1) {
+		return Direction::None;
+	}
+
+	const auto& head = m_snakeBody[0].position;
+	const auto& neck = m_snakeBody[1].position;
+
+	if (head.x == neck.x) {
+		return head.y > neck.y ? Direction::Down : Direction::Up;
+	} else if (head.y == neck.y) {
+		return head.x > neck.x ? Direction::Right : Direction::Left;
+	}
+	return Direction::None;
+}
